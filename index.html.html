@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hamham Espaces Verts</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+body{margin:0;font-family:Montserrat;background:#f4f7f5;color:#1b1b1b}
+header{background:#0b3d2e;color:white;padding:20px 25px}
+.header-top{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.site-logo{max-height:70px;width:auto;border-radius:12px;background:white;padding:6px}
+.translation-note{color:#d6e8df;font-size:14px;margin:0 0 10px;flex:1 1 100%;text-align:right}
+.lang{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin-top:8px}
+.lang button{padding:12px 18px;margin:5px;border:none;border-radius:8px;cursor:pointer;font-weight:bold;font-size:16px}
+section{max-width:1100px;margin:auto;padding:35px 20px}
+h2{color:#0b3d2e}
+.btn{display:inline-block;padding:12px 18px;background:#0b3d2e;color:white;border-radius:8px;text-decoration:none;margin-top:10px}
+.urgent{background:#0b3d2e;color:white;padding:20px;border-radius:10px;text-align:center}
+.service{background:white;margin:12px 0;border-radius:10px;padding:15px;cursor:pointer;transition:0.3s}
+.service:hover{transform:scale(1.02)}
+.service-title{font-weight:bold;display:flex;justify-content:space-between}
+.service-content{display:none;padding-top:10px}
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:6px}
+.gallery img { width: 100%; height: 100px; object-fit: cover; border-radius: 6px; cursor:pointer; }
+.gallery-note{color:#e8f0e4;font-size:14px;margin:5px 0 0}
+footer{background:#0b3d2e;color:white;text-align:center;padding:15px;margin-top:40px}
+.whatsapp{position:fixed;bottom:15px;right:15px;background:#25D366;color:white;padding:12px;border-radius:50px;text-decoration:none}
+.review{text-align:center;font-weight:bold;font-size:18px}
+.lightbox{display:none;position:fixed;z-index:1000;left:0;top:0;width:100%;height:100%;background-color:rgba(0,0,0,0.8)}
+.lightbox-content{position:relative;margin:auto;top:50%;transform:translateY(-50%);max-width:90%;max-height:90%}
+.lightbox img{max-width:100%;max-height:100%;display:block;margin:auto}
+.close{position:absolute;top:15px;right:35px;color:#f1f1f1;font-size:40px;font-weight:bold;cursor:pointer}
+.prev,.next{cursor:pointer;position:absolute;top:50%;width:auto;padding:16px;margin-top:-50px;color:white;font-weight:bold;font-size:20px;transition:0.6s ease;border-radius:0 3px 3px 0;user-select:none;-webkit-user-select:none}
+.next{right:0;border-radius:3px 0 0 3px}
+.prev:hover,.next:hover{background-color:rgba(0,0,0,0.8)}
+.zoom-btn{position:absolute;bottom:15px;left:50%;transform:translateX(-50%);background:#0b3d2e;color:white;border:none;padding:10px 15px;font-size:18px;cursor:pointer;border-radius:5px}
+.zoom-btn:hover{background:#0a2d1e}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="header-top">
+  <div style="text-align:right; min-width:220px;">
+    <p class="translation-note">click for traduction / cliquer pour traduction</p>
+    <div class="lang">
+      <button onclick="setLang('fr')">🇫🇷 Français</button>
+      <button onclick="setLang('en')">🇬🇧 English</button>
+    </div>
+  </div>
+</div>
+
+<h1>HAMHAM ESPACES VERTS</h1>
+
+<p id="slogan"></p>
+<p id="badges"></p>
+
+<a class="btn" id="quoteBtn"></a>
+</header>
+
+<section>
+<div class="urgent">
+<h2 id="urgentTitle"></h2>
+<p id="urgentText"></p>
+<a class="btn" href="tel:0637349725" id="callBtn"></a>
+</div>
+</section>
+
+<section>
+<h2 id="aboutTitle"></h2>
+<p id="aboutText"></p>
+</section>
+
+<section>
+<h2 id="servicesTitle"></h2>
+<p id="clickText"></p>
+<div id="services"></div>
+</section>
+
+<section>
+<h2 id="priceTitle"></h2>
+<p id="priceText"></p>
+</section>
+
+<section>
+<h2 id="reviewsTitle"></h2>
+<div class="review" id="reviewBox"></div>
+</section>
+
+<section>
+<h2 id="galleryTitle"></h2>
+<p class="gallery-note">Cliquez sur une image pour ouvrir et zoomer.</p>
+<div class="gallery" id="gallery"></div>
+<p id="galleryText"></p>
+</section>
+
+<section id="contact">
+<h2 id="contactTitle"></h2>
+<p>📞 06 37 34 97 25</p>
+<p>✉️ aude.elagage11@gmail.com</p>
+<a class="btn" href="tel:0637349725" id="callBtn2"></a>
+</section>
+
+<footer>
+© 2026 Hamham Espaces Verts — Tous droits réservés — RC Professionnelle —
+</footer>
+
+<a class="whatsapp" href="https://wa.me/33637349725">WhatsApp</a>
+
+<div id="lightbox" class="lightbox">
+  <span class="close" onclick="closeLightbox()">&times;</span>
+  <div class="lightbox-content">
+    <img id="lightbox-img" src="" alt="">
+  </div>
+  <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
+  <a class="next" onclick="changeSlide(1)">&#10095;</a>
+  <button class="zoom-btn" id="zoom-in" onclick="zoomIn()">Zoom In</button>
+</div>
+
+<script>
+
+let lang="fr";
+
+const data = {
+
+fr:{
+slogan:"Entretien et sécurisation professionnelle de vos extérieurs",
+badges:"+15 ans d’expérience • +100 clients satisfaits -avis vérifiés⭐⭐⭐⭐⭐ • Assurance RC professionnelle- Nous intervenons dans le sud de la France, dans l'Aude et ses alentours principalement.",
+quote:"Devis gratuit",
+urgentTitle:"🚨 Urgence",
+urgentText:"Arbre dangereux ou instable ? Intervention rapide pour sécuriser votre terrain.",
+call:"Appeler maintenant",
+
+aboutTitle:"Présentation",
+aboutText:`Hamham Espaces Verts est une entreprise spécialisée dans l’entretien, l’élagage et la sécurisation des espaces extérieurs depuis plus de 15 ans.
+
+Nous intervenons sur tous types de terrains et d’arbres, y compris les situations complexes, difficiles d’accès ou à risque.
+
+Avec plus de 100 clients satisfaits et une assurance responsabilité civile professionnelle, nous garantissons un travail fiable, sécurisé et de haute qualité.
+
+Notre priorité est la sécurité, la précision et la propreté du chantier, avec un matériel professionnel adapté à chaque intervention.
+
+Nous assurons des interventions rapides, efficaces et soignées, que ce soit pour un entretien régulier ou une urgence.`,
+
+servicesTitle:"Services",
+click:"Cliquez sur un service pour voir les détails",
+
+priceTitle:"Tarifs",
+priceText:"Devis gratuit et flexible selon chantier. Chaque intervention est adaptée à votre terrain, vos besoins et la difficulté des travaux.",
+
+reviewsTitle:"Avis clients",
+
+galleryTitle:"Galerie",
+galleryText:"Des résultats visibles et immédiats sur chaque chantier",
+
+contactTitle:"Contact"
+},
+
+en:{
+slogan:"Professional outdoor maintenance and tree safety services",
+badges:"15+ years experience • 100+ satisfied- verified reviews⭐⭐⭐⭐⭐ • Professional liability insurance - We operate in the south of France, mainly in Aude and its surroundings",
+quote:"Free quote",
+urgentTitle:"🚨 Emergency",
+urgentText:"Dangerous or unstable tree? Fast intervention to secure your property.",
+call:"Call now",
+
+aboutTitle:"Presentation",
+aboutText:`Hamham Espaces Verts is a company specialized in garden maintenance, tree pruning, and outdoor safety services for over 15 years.
+
+We work on all types of land and trees, including complex, hard-to-access, or high-risk situations.
+
+With more than 100 satisfied clients and full professional liability insurance, we guarantee reliable, safe, and high-quality work.
+
+Our priority is safety, precision, and clean workmanship, using professional equipment adapted to each intervention.
+
+We provide fast, efficient, and careful services, whether for regular maintenance or emergency situations.`,
+
+servicesTitle:"Services",
+click:"Click on a service to view details",
+
+priceTitle:"Pricing",
+priceText:"Free and flexible quote depending on the project, terrain, and complexity of the work.",
+
+reviewsTitle:"Customer reviews",
+
+galleryTitle:"Gallery",
+galleryText:"Visible and immediate results on every job",
+
+contactTitle:"Contact"
+}
+
+};
+
+const services = [
+
+{
+fr:"Entretien de jardin",
+en:"Garden maintenance",
+desc_fr:[
+"Tonte, nettoyage et désherbage pour un extérieur propre.",
+"Entretien régulier ou ponctuel.",
+"Jardin agréable toute l’année.",
+"Résultat propre et soigné."
+],
+desc_en:[
+"Mowing, cleaning and weed removal for a clean outdoor space.",
+"Regular or occasional maintenance.",
+"Pleasant garden all year round.",
+"Clean and professional result."
+]
+},
+
+{
+fr:"Élagage & abattage",
+en:"Tree pruning & removal",
+desc_fr:[
+"Taille et coupe sécurisée.",
+"Même situations complexes.",
+"Travail précis et sécurisé.",
+"Respect total des arbres."
+],
+desc_en:[
+"Safe tree cutting and pruning.",
+"Even complex situations.",
+"Precise and secure work.",
+"Full respect of trees."
+]
+},
+
+{
+fr:"Travaux en hauteur",
+en:"Height work",
+desc_fr:[
+"Intervention arbres dangereux.",
+"Accès difficile maîtrisé.",
+"Équipement professionnel.",
+"Sécurité maximale."
+],
+desc_en:[
+"Dangerous tree intervention.",
+"Hard access mastered.",
+"Professional equipment.",
+"Maximum safety."
+]
+},
+
+{
+fr:"Débroussaillage",
+en:"Land clearing",
+desc_fr:[
+"Nettoyage terrains envahis.",
+"Remise en état rapide.",
+"Terrain propre.",
+"Résultat immédiat."
+],
+desc_en:[
+"Overgrown land cleaning.",
+"Fast restoration.",
+"Clean land.",
+"Immediate result."
+]
+},
+
+{
+fr:"Taille arbres fruitiers",
+en:"Fruit tree pruning",
+desc_fr:[
+"Oliviers, cerisiers et fruitiers.",
+"Favorise croissance et production.",
+"Travail précis.",
+"Arbres en meilleure santé."
+],
+desc_en:[
+"Olive, cherry and fruit trees.",
+"Improves growth and yield.",
+"Precise work.",
+"Healthier trees."
+]
+},
+
+{
+fr:"Évacuation déchets verts",
+en:"Green waste removal",
+desc_fr:[
+"Chantier propre du début à la fin.",
+"Aucune contrainte pour vous.",
+"Gestion complète.",
+"Service clé en main."
+],
+desc_en:[
+"Clean site from start to finish.",
+"No effort required.",
+"Full management.",
+"Turnkey service."
+]
+},
+
+{
+fr:"Broyage",
+en:"Wood chipping",
+desc_fr:[
+"Transformation déchets en broyat.",
+"Valorisation écologique.",
+"Terrain propre.",
+"Solution durable."
+],
+desc_en:[
+"Waste turned into mulch.",
+"Eco-friendly solution.",
+"Clean land.",
+"Sustainable result."
+]
+},
+
+{
+fr:"Diagnostic arbre",
+en:"Tree diagnosis",
+desc_fr:[
+"Analyse santé arbre.",
+"Prévention des risques.",
+"Conseils professionnels.",
+"Sécurité garantie."
+],
+desc_en:[
+"Tree health analysis.",
+"Risk prevention.",
+"Professional advice.",
+"Guaranteed safety."
+]
+},
+
+{
+fr:"Tous types d’arbres",
+en:"All tree types",
+desc_fr:[
+"Tous arbres.",
+"Toutes tailles.",
+"Toutes situations.",
+"Adaptation totale."
+],
+desc_en:[
+"All trees.",
+"All sizes.",
+"All situations.",
+"Full adaptation."
+]
+}
+
+];
+
+const reviews = [
+"★★★★★ Carine : travail rapide et propre",
+"★★★★★ Virginie: jardin parfait",
+"★★★★★ Alain : urgence efficace",
+"★★★★★ Michelle : entretien régulier",
+"★★★★★ Isabella.W. : excellent service"
+];
+
+const galleryImages = [
+"https://www.pagesjaunes.fr/media/newdam/preset-viewer-xl/3c/03/5e/00/00/13/2b/9a/c6/d0/5e653c035e0000132b9ac6d0/5e653c035e0000132b9ac6d1.jpg",
+"https://www.pagesjaunes.fr/media/newdam/preset-viewer-xl/22/0f/30/00/00/b6/50/b1/03/56/69c8220f300000b650b10356/69c8220f300000b650b10357.jpg",
+"https://www.pagesjaunes.fr/media/newdam/preset-viewer-xl/8c/dd/a4/00/00/b8/11/ba/b3/4f/5d388cdda40000b811bab34f/5d388cdda40000b811bab350.jpg",
+"https://www.pagesjaunes.fr/media/newdam/preset-viewer-xl/05/37/6e/00/00/68/e0/94/f0/2f/5f4c05376e000068e094f02f/5f4c05376e000068e094f030.jpg",
+"https://www.pagesjaunes.fr/media/newdam/preset-viewer-xl/b5/50/57/00/00/5f/79/df/b5/dc/5f10b5505700005f79dfb5dc/5f10b5505700005f79dfb5dd.jpg",
+"https://www.pagesjaunes.fr/media/newdam/preset-viewer-xl/b5/33/4c/00/00/41/f0/a0/c0/a7/5f10b5334c000041f0a0c0a7/5f10b5334c000041f0a0c0a8.jpg",
+"https://www.pagesjaunes.fr/media/newdam/preset-viewer-xl/3a/18/45/00/00/69/76/fe/82/0b/5f403a184500006976fe820b/5f403a184500006976fe820c.jpg",
+"https://www.pagesjaunes.fr/media/newdam/preset-viewer-xl/57/af/80/00/00/48/06/18/21/dd/5dd957af80000048061821dd/5dd957af80000048061821de.jpg",
+"https://www.pagesjaunes.fr/media/newdam/preset-viewer-xl/29/79/81/00/00/8d/0c/5b/c4/08/5f1029798100008d0c5bc408/5f1029798100008d0c5bc409.jpg",
+"https://www.pagesjaunes.fr/media/newdam/preset-viewer-xl/03/47/7e/00/00/05/47/72/f9/c9/602803477e0000054772f9c9/602803477e0000054772f9ca.jpg",
+"https://www.pagesjaunes.fr/media/newdam/preset-viewer-xl/8c/dd/d7/00/00/04/36/e9/b2/96/5d388cddd700000436e9b296/5d388cddd700000436e9b297.jpg",
+"https://www.pagesjaunes.fr/media/newdam/preset-viewer-xl/8c/dd/4e/00/00/7d/71/ee/73/08/5d388cdd4e00007d71ee7308/5d388cdd4e00007d71ee7309.jpg",
+"https://www.pagesjaunes.fr/media/newdam/preset-viewer-xl/8c/dd/40/00/00/c4/13/da/eb/8a/5d388cdd400000c413daeb8a/5d388cdd400000c413daeb8b.jpg",
+"https://www.pagesjaunes.fr/media/newdam/preset-viewer-xl/8c/dd/d7/00/00/45/2b/e9/b2/94/5d388cddd70000452be9b294/5d388cddd70000452be9b295.jpg",
+"https://www.pagesjaunes.fr/media/newdam/preset-viewer-xl/7d/39/2e/00/00/a6/a0/55/fc/0a/64fb7d392e0000a6a055fc0a/64fb7d392e0000a6a055fc0b.jpg"
+];
+
+function openLightbox(index) {
+  currentSlide = index;
+  zoomLevel = 1;
+  document.getElementById('lightbox-img').src = galleryImages[currentSlide];
+  document.getElementById('lightbox-img').style.transform = 'scale(' + zoomLevel + ')';
+  document.getElementById('lightbox').style.display = 'block';
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').style.display = 'none';
+}
+
+function changeSlide(n) {
+  currentSlide += n;
+  if (currentSlide >= galleryImages.length) currentSlide = 0;
+  if (currentSlide < 0) currentSlide = galleryImages.length - 1;
+  document.getElementById('lightbox-img').src = galleryImages[currentSlide];
+  document.getElementById('lightbox-img').style.transform = 'scale(' + zoomLevel + ')';
+}
+
+function zoomIn() {
+  zoomLevel += 0.1;
+  document.getElementById('lightbox-img').style.transform = 'scale(' + zoomLevel + ')';
+}
+
+function zoomOut() {
+  if (zoomLevel > 0.1) zoomLevel -= 0.1;
+  document.getElementById('lightbox-img').style.transform = 'scale(' + zoomLevel + ')';
+}
+
+document.addEventListener('keydown', function(e) {
+  if (document.getElementById('lightbox').style.display === 'block') {
+    if (e.key === 'ArrowLeft') changeSlide(-1);
+    if (e.key === 'ArrowRight') changeSlide(1);
+    if (e.key === 'Escape') closeLightbox();
+  }
+});
+
+document.getElementById('lightbox-img').addEventListener('wheel', function(e) {
+  e.preventDefault();
+  if (e.deltaY < 0) zoomIn();
+  else zoomOut();
+});
+
+function renderServices(){
+let html="";
+services.forEach(s=>{
+html+=`
+<div class="service" onclick="toggle(this)">
+<div class="service-title">${lang==="fr"?s.fr:s.en} <span>+</span></div>
+<div class="service-content">
+${(lang==="fr"?s.desc_fr:s.desc_en).map(d=>`<p>${d}</p>`).join("")}
+</div>
+</div>`;
+});
+document.getElementById("services").innerHTML=html;
+}
+
+function toggle(el){
+const content=el.querySelector(".service-content");
+content.style.display = content.style.display==="block" ? "none":"block";
+}
+
+function setLang(l){
+lang=l;
+
+document.getElementById("slogan").innerText=data[lang].slogan;
+document.getElementById("badges").innerText=data[lang].badges;
+document.getElementById("quoteBtn").innerText=data[lang].quote;
+
+document.getElementById("urgentTitle").innerText=data[lang].urgentTitle;
+document.getElementById("urgentText").innerText=data[lang].urgentText;
+document.getElementById("callBtn").innerText=data[lang].call;
+
+document.getElementById("aboutTitle").innerText=data[lang].aboutTitle;
+document.getElementById("aboutText").innerText=data[lang].aboutText;
+
+document.getElementById("servicesTitle").innerText=data[lang].servicesTitle;
+document.getElementById("clickText").innerText=data[lang].click;
+
+document.getElementById("priceTitle").innerText=data[lang].priceTitle;
+document.getElementById("priceText").innerText=data[lang].priceText;
+
+document.getElementById("reviewsTitle").innerText=data[lang].reviewsTitle;
+
+document.getElementById("galleryTitle").innerText=data[lang].galleryTitle;
+document.getElementById("galleryText").innerText=data[lang].galleryText;
+
+document.getElementById("contactTitle").innerText=data[lang].contactTitle;
+document.getElementById("callBtn2").innerText=data[lang].call;
+
+renderServices();
+}
+
+setLang("fr");
+
+let i=0;
+setInterval(()=>{
+document.getElementById("reviewBox").innerText=reviews[i];
+i=(i+1)%reviews.length;
+},3000);
+
+document.getElementById("gallery").innerHTML = `
+<img src="https://www.pagesjaunes.fr/media/newdam/preset-viewer-xl/3c/03/5e/00/00/13/2b/9a/c6/d0/5e653c035e0000132b9ac6d0/5e653c035e0000132b9ac6d1.jpg" alt="Gallery Image 1" onclick="openLightbox(0)">
+<img src="https://www.pagesjaunes.fr/media/newdam/preset-viewer-xl/22/0f/30/00/00/b6/50/b1/03/56/69c8220f300000b650b10356/69c8220f300000b650b10357.jpg" alt="Gallery Image 2" onclick="openLightbox(1)">
+<img src="https://www.pagesjaunes.fr/media/newdam/preset-viewer-xl/8c/dd/a4/00/00/b8/11/ba/b3/4f/5d388cdda40000b811bab34f/5d388cdda40000b811bab350.jpg" alt="Gallery Image 3" onclick="openLightbox(2)">
+<img src="https://www.pagesjaunes.fr/media/newdam/preset-viewer-xl/05/37/6e/00/00/68/e0/94/f0/2f/5f4c05376e000068e094f02f/5f4c05376e000068e094f030.jpg" alt="Gallery Image 4" onclick="openLightbox(3)">
+<img src="https://www.pagesjaunes.fr/media/newdam/preset-viewer-xl/b5/50/57/00/00/5f/79/df/b5/dc/5f10b5505700005f79dfb5dc/5f10b5505700005f79dfb5dd.jpg" alt="Gallery Image 5" onclick="openLightbox(4)">
+<img src="https://www.pagesjaunes.fr/media/newdam/preset-viewer-xl/b5/33/4c/00/00/41/f0/a0/c0/a7/5f10b5334c000041f0a0c0a7/5f10b5334c000041f0a0c0a8.jpg" alt="Gallery Image 6" onclick="openLightbox(5)">
+<img src="https://www.pagesjaunes.fr/media/newdam/preset-viewer-xl/3a/18/45/00/00/69/76/fe/82/0b/5f403a184500006976fe820b/5f403a184500006976fe820c.jpg" alt="Gallery Image 7" onclick="openLightbox(6)">
+<img src="https://www.pagesjaunes.fr/media/newdam/preset-viewer-xl/57/af/80/00/00/48/06/18/21/dd/5dd957af80000048061821dd/5dd957af80000048061821de.jpg" alt="Gallery Image 8" onclick="openLightbox(7)">
+<img src="https://www.pagesjaunes.fr/media/newdam/preset-viewer-xl/29/79/81/00/00/8d/0c/5b/c4/08/5f1029798100008d0c5bc408/5f1029798100008d0c5bc409.jpg" alt="Gallery Image 9" onclick="openLightbox(8)">
+<img src="https://www.pagesjaunes.fr/media/newdam/preset-viewer-xl/03/47/7e/00/00/05/47/72/f9/c9/602803477e0000054772f9c9/602803477e0000054772f9ca.jpg" alt="Gallery Image 10" onclick="openLightbox(9)">
+<img src="https://www.pagesjaunes.fr/media/newdam/preset-viewer-xl/8c/dd/d7/00/00/04/36/e9/b2/96/5d388cddd700000436e9b296/5d388cddd700000436e9b297.jpg" alt="Gallery Image 11" onclick="openLightbox(10)">
+<img src="https://www.pagesjaunes.fr/media/newdam/preset-viewer-xl/8c/dd/4e/00/00/7d/71/ee/73/08/5d388cdd4e00007d71ee7308/5d388cdd4e00007d71ee7309.jpg" alt="Gallery Image 12" onclick="openLightbox(11)">
+<img src="https://www.pagesjaunes.fr/media/newdam/preset-viewer-xl/8c/dd/40/00/00/c4/13/da/eb/8a/5d388cdd400000c413daeb8a/5d388cdd400000c413daeb8b.jpg" alt="Gallery Image 13" onclick="openLightbox(12)">
+<img src="https://www.pagesjaunes.fr/media/newdam/preset-viewer-xl/8c/dd/d7/00/00/45/2b/e9/b2/94/5d388cddd70000452be9b294/5d388cddd70000452be9b295.jpg" alt="Gallery Image 14" onclick="openLightbox(13)">
+<img src="https://www.pagesjaunes.fr/media/newdam/preset-viewer-xl/7d/39/2e/00/00/a6/a0/55/fc/0a/64fb7d392e0000a6a055fc0a/64fb7d392e0000a6a055fc0b.jpg" alt="Gallery Image 15" onclick="openLightbox(14)">
+`;
+
+</script>
+
+</body>
+</html>
